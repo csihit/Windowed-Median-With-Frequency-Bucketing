@@ -1,0 +1,76 @@
+START
+
+INPUT n                          // number of elements
+CREATE array nums[n]
+
+FOR i ← 0 TO n − 1
+    INPUT nums[i]
+END FOR
+
+INPUT k                          // window size
+INPUT maxVal                     // maximum value in array
+
+medians ← windowedMedianBucketing(nums, k, maxVal)
+
+PRINT "Sliding Window Medians:"
+
+FOR each value m in medians
+    PRINT m
+END FOR
+
+END
+
+
+FUNCTION windowedMedianBucketing(nums, k, maxVal)
+
+    CREATE empty list results
+
+    IF nums is empty OR k = 0
+        RETURN results
+    END IF
+
+    CREATE array buckets[maxVal + 1]
+    INITIALIZE all elements of buckets to 0
+
+    // Initialize first window
+    FOR i ← 0 TO k − 1
+        buckets[nums[i]] ← buckets[nums[i]] + 1
+    END FOR
+
+    median ← getMedian(buckets, k)
+    ADD median to results
+
+    // Slide the window
+    FOR i ← k TO length(nums) − 1
+
+        buckets[nums[i − k]] ← buckets[nums[i − k]] − 1
+        buckets[nums[i]] ← buckets[nums[i]] + 1
+
+        median ← getMedian(buckets, k)
+        ADD median to results
+
+    END FOR
+
+    RETURN results
+
+END FUNCTION
+
+
+FUNCTION getMedian(buckets, k)
+
+    countSum ← 0
+    target ← (k + 1) / 2
+
+    FOR i ← 0 TO length(buckets) − 1
+
+        countSum ← countSum + buckets[i]
+
+        IF countSum ≥ target THEN
+            RETURN i
+        END IF
+
+    END FOR
+
+    RETURN 0
+
+END FUNCTION

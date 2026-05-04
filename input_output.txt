@@ -1,0 +1,9 @@
+Input:
+Enter number of elements: 8
+Enter array elements: 1 4 2 3 0 5 1 2
+Enter window size (k): 3
+Enter maximum value in array: 5
+
+Output:
+Sliding Window Medians:
+2 3 2 3 1 2
